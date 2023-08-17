@@ -170,19 +170,6 @@
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${alibaba.druid.version}</version>
             </dependency>
-            <!-- 引入Apollo -->
-            <dependency>
-                <groupId>com.capol</groupId>
-                <artifactId>capol-apollo-client</artifactId>
-                <version>${capol.apollo.client.version}</version>
-                <optional>true</optional>
-                <exclusions>
-                    <exclusion>
-                        <groupId>snakeyaml</groupId>
-                        <artifactId>org.yaml</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
@@ -283,11 +270,6 @@
                 <groupId>com.sun.mail</groupId>
                 <artifactId>javax.mail</artifactId>
                 <version>${javax.mail.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.capol</groupId>
-                <artifactId>capol-health</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

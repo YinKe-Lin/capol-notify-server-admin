@@ -1,7 +1,7 @@
 package com.capol.notify.consumer.domain.model.wechat.sao;
 
-import com.capol.base.response.ObjectResponse;
 import com.capol.notify.consumer.domain.model.wechat.sao.model.EmployeeDTO;
+import com.capol.notify.consumer.domain.model.wechat.sao.response.ObjectResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

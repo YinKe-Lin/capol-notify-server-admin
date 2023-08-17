@@ -22,10 +22,6 @@
             <version>${capol.notify.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.capol</groupId>
-            <artifactId>capol-apollo-client</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>

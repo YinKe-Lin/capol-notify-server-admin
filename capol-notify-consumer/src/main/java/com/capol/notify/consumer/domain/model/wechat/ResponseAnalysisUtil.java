@@ -1,7 +1,7 @@
 package com.capol.notify.consumer.domain.model.wechat;
 
 
-import com.capol.base.response.ObjectResponse;
+import com.capol.notify.consumer.domain.model.wechat.sao.response.ObjectResponse;
 import com.capol.notify.manage.domain.DomainException;
 import com.capol.notify.manage.domain.EnumExceptionCode;
 import org.apache.http.HttpStatus;

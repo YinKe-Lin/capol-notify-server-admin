@@ -120,10 +120,6 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.capol</groupId>
-            <artifactId>capol-apollo-client</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
@@ -168,10 +164,6 @@
         <dependency>
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.capol</groupId>
-            <artifactId>capol-health</artifactId>
         </dependency>
     </dependencies>
 

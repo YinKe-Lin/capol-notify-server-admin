@@ -1,14 +1,3 @@
-app:
-  id: capol-notify-admin #apollo app-id
-apollo:
-  bootstrap:
-    enabled: true  # spring启动更早注入配置
-    namespaces: application.yml #启用的namespace
-    eagerLoad:
-      enabled: true # apollo加载在日志系统之前
-  cacheDir: /opt/data/apllo/ #本地缓存路径
-env: DEV
-
 server:
   port: 9993
 
@@ -22,7 +11,7 @@ spring:
     active: dev
   cloud:
     consul:
-      host: 10.1.247.191  # Consul 服务器地址
+      host: 10.1.207.102  # Consul 服务器地址
       port: 8500
       enabled: true
       discovery:

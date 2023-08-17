@@ -1,7 +1,7 @@
 package com.capol.notify.consumer.domain.model.wechat.sao;
 
-import com.capol.base.response.ObjectResponse;
 import com.capol.notify.consumer.domain.model.wechat.sao.model.EmployeeDTO;
+import com.capol.notify.consumer.domain.model.wechat.sao.response.ObjectResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

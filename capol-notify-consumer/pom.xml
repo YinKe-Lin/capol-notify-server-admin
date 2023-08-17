@@ -78,10 +78,6 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.capol</groupId>
-            <artifactId>capol-apollo-client</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
@@ -159,10 +155,6 @@
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.capol</groupId>
-            <artifactId>capol-health</artifactId>
         </dependency>
     </dependencies>
     <build>

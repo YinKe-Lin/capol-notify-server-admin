@@ -1,14 +1,3 @@
-app:
-  id: capol-notify-producer #apollo app-id
-apollo:
-  bootstrap:
-    enabled: true  # spring启动更早注入配置
-    namespaces: application.yml #启用的namespace
-    eagerLoad:
-      enabled: true # apollo加载在日志系统之前
-  cacheDir: /opt/data/apllo/ #本地缓存路径
-env: DEV
-
 server:
   port: 8989
 
@@ -22,13 +11,13 @@ spring:
     active: dev
   cloud:
     consul:
-      host: 10.1.247.191  # Consul 服务器地址
+      host: 10.1.207.102  # Consul 服务器地址
       port: 8500
       enabled: true
       discovery:
         enabled: true
         health-check-timeout: 10s
-        health-check-path: /server/checkHealth #检测实例健康 /api/v1.0/service/check-health
+        health-check-path: /api/v1.0/service/check-health #检测实例健康 /api/v1.0/service/check-health
         health-check-interval: 10s
         service-name: ${spring.application.name} # 服务名称
         instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}-${server.port}  # 注册实例 id（必须唯一）

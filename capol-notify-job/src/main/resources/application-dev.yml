@@ -20,14 +20,20 @@ spring:
         # 连接池中的最小空闲连接
         min-idle: 5
     cluster:
-      nodes: 10.1.247.26:7000,10.1.247.26:7001,10.1.247.27:7000,10.1.247.27:7001,10.1.247.28:7000,10.1.247.28:7001
+      nodes:
+        - 10.1.207.13:7000
+        - 10.1.207.13:7001
+        - 10.1.207.14:7000
+        - 10.1.207.14:7001
+        - 10.1.207.15:7000
+        - 10.1.207.15:7001
       # 跨集群执行命令时要遵循的最大重定向数量
       max-redirects: 3
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.1.247.173:3306/db_capol_notify?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://10.1.207.12:3306/db_capol_notify?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true
     username: root
-    password: mysql_root_dev_2021
+    password: mysql_root_test_2021
     type: com.alibaba.druid.pool.DruidDataSource
     ### 连接池配置
     druid:
@@ -38,10 +44,10 @@ spring:
       validation-query: SELECT 1
   #配置rabbitMq 服务器
   rabbitmq:
-    host: 10.1.247.194
+    host: 10.1.207.30
     port: 5672
-    username: admin
-    password: capol2000
+    username: bimAdmin
+    password: admin_2020_prod
     #虚拟host 可以不设置,使用server默认host
     virtual-host: CapolNotifyVHost
     publisher-returns: true #开启confirm确认模式
@@ -57,7 +63,7 @@ xxl:
   job:
     admin:
       # 调度中心部署跟地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
-      addresses: http://127.0.0.1:7068/xxl-job-admin
+      addresses: https://qareportjob.capol.cn/xxl-job-admin
       # 执行器通讯TOKEN [选填]：非空时启用
       ussername: admin
       password: 123456

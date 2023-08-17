@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -20,7 +21,7 @@ public class UserQueueRequestParam {
     private List<UserQueueData> userQueueDataList;
 
     @Data
-    public class UserQueueData {
+    public static class UserQueueData implements Serializable {
         /**
          * 队列ID
          */

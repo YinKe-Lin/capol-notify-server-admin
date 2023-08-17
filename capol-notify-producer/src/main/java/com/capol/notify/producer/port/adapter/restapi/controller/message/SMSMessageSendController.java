@@ -2,7 +2,6 @@ package com.capol.notify.producer.port.adapter.restapi.controller.message;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.capol.base.utils.StringUtil;
 import com.capol.notify.manage.application.ApplicationException;
 import com.capol.notify.manage.domain.EnumExceptionCode;
 import com.capol.notify.producer.application.message.SendMessageService;
@@ -14,6 +13,7 @@ import com.capol.notify.sdk.pojo.SMSMessageData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,7 +82,7 @@ public class SMSMessageSendController {
                 validateSmsContentLength(param.getParamValue());
             }
         } else {
-            if (StringUtil.isNotBlank(messageRequestParam.getTemplateParam())) {
+            if (StringUtils.isNotBlank(messageRequestParam.getTemplateParam())) {
                 validateSmsContentLength(messageRequestParam.getTemplateParam());
             }
         }
@@ -155,7 +155,7 @@ public class SMSMessageSendController {
      * @param content 短信内容
      */
     private void validateSmsContentLength(String content) {
-        if (StringUtil.isBlank(content)) {
+        if (StringUtils.isBlank(content)) {
             return;
         }
         try {
@@ -176,7 +176,7 @@ public class SMSMessageSendController {
      * @param content
      */
     private void validateContentString(String content) {
-        if (StringUtil.isBlank(content)) {
+        if (StringUtils.isBlank(content)) {
             //存在内容是空的，当做异常
             throw new ApplicationException("内容不能为空：", EnumExceptionCode.BadRequest);
         }

@@ -4,10 +4,10 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
-import com.capol.base.utils.StringUtil;
 import com.github.binarywang.wxpay.service.WxPayService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +26,8 @@ public class WeChatPayConfiguration {
     @Bean("miniProgramWxMaService")
     public WxMaService wxMaService(){
         WxMaConfig wxMaConfig= new WxMaDefaultConfigImpl();
-        ((WxMaDefaultConfigImpl)wxMaConfig).setAppid(StringUtil.trimToNull(weChatPayProperties.getAppId()));
-        ((WxMaDefaultConfigImpl)wxMaConfig).setSecret(StringUtil.trimToNull(weChatPayProperties.getAppSecret()));
+        ((WxMaDefaultConfigImpl)wxMaConfig).setAppid(StringUtils.trimToNull(weChatPayProperties.getAppId()));
+        ((WxMaDefaultConfigImpl)wxMaConfig).setSecret(StringUtils.trimToNull(weChatPayProperties.getAppSecret()));
         WxMaService wxMaService = new WxMaServiceImpl();
         wxMaService.setWxMaConfig(wxMaConfig);
         return wxMaService;
