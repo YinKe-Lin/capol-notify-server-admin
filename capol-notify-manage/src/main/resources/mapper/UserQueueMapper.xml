@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capol.notify.manage.domain.repository.UserQueueMapper">
+    <resultMap id="BaseResultMap" type="com.capol.notify.manage.domain.model.queue.UserQueueDO">
+        <result property="id" column="id" jdbcType="BIGINT"/>
+        <result property="exchange" column="exchange" jdbcType="VARCHAR"/>
+        <result property="routing" column="routing" jdbcType="VARCHAR"/>
+        <result property="queue" column="queue" jdbcType="VARCHAR"/>
+        <result property="priority" column="priority" jdbcType="INTEGER"/>
+        <result property="businessType" column="business_type" jdbcType="VARCHAR"/>
+        <result property="disabled" column="disabled" jdbcType="BIT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="createdDateTime" column="created_datetime" jdbcType="TIMESTAMP"/>
+        <result property="latestModifiedDateTime" column="latest_modified_datetime" jdbcType="TIMESTAMP"/>
+        <association property="userId" javaType="com.capol.notify.manage.domain.model.user.UserId">
+            <id column="user_id" property="id"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        `id`
+        ,
+        `user_id`,
+        `exchange`,
+        `routing`,
+        `queue`,
+        `priority`,
+        `business_type`,
+        `disabled`
+    </sql>
+
+    <select id="findByUserId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM t_user_queue WHERE `status` =1 AND user_id= #{id}
+    </select>
+    <insert id="batchInsertQueues" parameterType="arraylist">
+        INSERT INTO t_user_queue(
+        id,
+        user_id,
+        exchange,
+        routing,
+        queue,
+        priority,
+        business_type,
+        disabled,
+        status,
+        created_datetime,
+        latest_modified_datetime
+        )VALUES
+        <foreach item="userQueue" collection="userQueueDOS">
+            (
+            #{userQueue.id},
+            #{userQueue.userId.id},
+            #{userQueue.exchange},
+            #{userQueue.routing},
+            #{userQueue.queue},
+            #{userQueue.priority},
+            #{userQueue.businessType},
+            #{userQueue.disabled},
+            #{userQueue.status},
+            #{userQueue.createdDateTime},
+            #{userQueue.latestModifiedDateTime}
+            )
+        </foreach>
+    </insert>
+
+    <update id="batchDeleteQueues">
+        UPDATE t_user_queue
+        <set>
+            `status` = 0,
+            latest_modified_datetime = NOW()
+        </set>
+        WHERE `id` IN
+        (
+        <foreach item="item" index="key" collection="userQueueIds" separator=",">
+            ${item}
+        </foreach>
+        )
+    </update>
+
+    <update id="batchDisableQueues">
+        UPDATE t_user_queue
+        <set>
+            disabled = 1,
+            latest_modified_datetime = NOW()
+        </set>
+        WHERE `id` IN
+        (
+        <foreach item="item" index="key" collection="userQueueIds" separator=",">
+            ${item}
+        </foreach>
+        )
+    </update>
+
+    <update id="batchEnableQueues">
+        UPDATE t_user_queue
+        <set>
+            disabled = 0,
+            latest_modified_datetime = NOW()
+        </set>
+        WHERE `id` IN
+        (
+        <foreach item="item" index="key" collection="userQueueIds" separator=",">
+            ${item}
+        </foreach>
+        )
+    </update>
+</mapper>

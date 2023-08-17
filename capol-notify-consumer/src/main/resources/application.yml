@@ -1,0 +1,46 @@
+app:
+  id: capol-notify-consumer #apollo app-id
+apollo:
+  bootstrap:
+    enabled: true  # spring启动更早注入配置
+    namespaces: application.yml #启用的namespace
+    eagerLoad:
+      enabled: true # apollo加载在日志系统之前
+  cacheDir: /opt/data/apllo/ #本地缓存路径
+env: DEV
+
+server:
+  port: 9090
+
+spring:
+  application:
+    name: capol-notify-consumer
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cloud:
+    consul:
+      host: 10.1.247.191  # Consul 服务器地址
+      port: 8500
+      enabled: true
+      discovery:
+        enabled: true
+        health-check-timeout: 10s
+        health-check-path: /server/checkHealth #检测实例健康
+        health-check-interval: 10s
+        service-name: ${spring.application.name} # 服务名称
+        instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}-${server.port}  # 注册实例 id（必须唯一）
+        prefer-ip-address: true # 是否使用 ip 地址注册
+        health-check-critical-timeout: 10m
+        # 配置实例地址
+        register: true # 是否需要注册
+        deregister: false
+        tags: env=dev
+        default-query-tag: env=dev
+        # ip-address: ${spring.cloud.client.ip-address} # 服务请求 ip
+        # port: ${server.port}  # 服务端口
+
+logging:
+  config: classpath:capol-logback-spring.xml

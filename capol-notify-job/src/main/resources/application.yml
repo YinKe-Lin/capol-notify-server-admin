@@ -1,0 +1,22 @@
+app:
+  id: capol-notify-job #apollo app-id
+apollo:
+  bootstrap:
+    enabled: true  # spring启动更早注入配置
+    namespaces: application.yml #启用的namespace
+    eagerLoad:
+      enabled: true # apollo加载在日志系统之前
+  cacheDir: /opt/data/apllo/ #本地缓存路径
+env: DEV
+
+server:
+  port: 9191
+
+spring:
+  application:
+    name: capol-notify-job
+  profiles:
+    active: dev
+
+logging:
+  config: classpath:capol-logback-spring.xml

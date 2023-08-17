@@ -1,0 +1,73 @@
+spring:
+  redis:
+    #连接超时时间（毫秒）
+    timeout: 50000
+    database: 0
+    enable: true
+    sysName: capol
+    # Redis服务器连接密码（默认为空）
+    password: capol2000
+    # 连接超时时间（毫秒）
+    commandTimeout: 50000
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 5000
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1
+        # 连接池中的最大空闲连接
+        max-idle: 30
+        # 连接池中的最小空闲连接
+        min-idle: 5
+    cluster:
+      nodes: 10.1.247.26:7000,10.1.247.26:7001,10.1.247.27:7000,10.1.247.27:7001,10.1.247.28:7000,10.1.247.28:7001
+      # 跨集群执行命令时要遵循的最大重定向数量
+      max-redirects: 3
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.1.247.173:3306/db_capol_notify?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowMultiQueries=true
+    username: root
+    password: mysql_root_dev_2021
+    type: com.alibaba.druid.pool.DruidDataSource
+    ### 连接池配置
+    druid:
+      initial-size: 50
+      max-active: 200
+      min-idle: 50
+      max-wait: 50
+      validation-query: SELECT 1
+  #配置rabbitMq 服务器
+  rabbitmq:
+    host: 10.1.247.194
+    port: 5672
+    username: admin
+    password: capol2000
+    #虚拟host 可以不设置,使用server默认host
+    virtual-host: CapolNotifyVHost
+    publisher-returns: true #开启confirm确认模式
+    publisher-confirm-type: correlated
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.baomidou.mybatisplus: DEBUG
+    com.capol.notify.manage.domain.repository: DEBUG
+  file:
+    path: /logs/producer
+
+capol:
+  jwt:
+    issuer: capol
+    key: fa6Y!#2zYfdnzD#Z@USNFlQIgMROqR6aNnPeHy%Yw$9eCtOnjt
+    expires-hours: 8
+  notify:
+    retry:
+      max-count: 19
+
+swagger:
+  show: true
