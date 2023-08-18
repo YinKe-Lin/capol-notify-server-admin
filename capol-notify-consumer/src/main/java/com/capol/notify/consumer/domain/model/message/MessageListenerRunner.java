@@ -3,7 +3,6 @@ package com.capol.notify.consumer.domain.model.message;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.capol.notify.manage.application.ApplicationException;
 import com.capol.notify.manage.domain.EnumExceptionCode;
-import com.capol.notify.manage.domain.EnumStatusType;
 import com.capol.notify.manage.domain.model.queue.UserQueueDO;
 import com.capol.notify.manage.domain.repository.UserQueueMapper;
 import com.capol.notify.sdk.MessageReceiveConfirmCallback;
@@ -50,7 +49,8 @@ public class MessageListenerRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserQueueDO::getDisabled, false);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
         if (CollectionUtils.isEmpty(userQueueDOS)) {
             log.warn("-->当前服务无队列配置信息!!!");

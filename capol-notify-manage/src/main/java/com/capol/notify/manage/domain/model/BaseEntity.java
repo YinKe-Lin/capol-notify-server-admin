@@ -2,7 +2,9 @@ package com.capol.notify.manage.domain.model;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.capol.notify.manage.domain.EnumStatusType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -10,10 +12,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+/**
+ * 基础实体对象
+ *
+ * @author heyong
+ */
 public class BaseEntity extends IdentifiedDomainObject {
     /**
      * 记录状态(0-删除 1-正常)
      */
+    @TableLogic
     private Integer status;
 
     /**
@@ -21,7 +29,7 @@ public class BaseEntity extends IdentifiedDomainObject {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @TableField("created_datetime")
+    @TableField(value = "created_datetime", fill = FieldFill.INSERT)
     private Date createdDateTime;
 
     /**
@@ -29,7 +37,7 @@ public class BaseEntity extends IdentifiedDomainObject {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @TableField("latest_modified_datetime")
+    @TableField(value = "latest_modified_datetime", fill = FieldFill.INSERT_UPDATE)
     private Date latestModifiedDateTime;
 
     protected final void preRemove() {
@@ -66,7 +74,7 @@ public class BaseEntity extends IdentifiedDomainObject {
         return createdDateTime;
     }
 
-    private void setCreatedDatetime(Date createdDateTime) {
+    public void setCreatedDatetime(Date createdDateTime) {
         this.createdDateTime = createdDateTime;
     }
 
@@ -74,7 +82,7 @@ public class BaseEntity extends IdentifiedDomainObject {
         return latestModifiedDateTime;
     }
 
-    private void setLatestModifiedDatetime(Date latestModifiedDatetime) {
+    public void setLatestModifiedDatetime(Date latestModifiedDatetime) {
         this.latestModifiedDateTime = latestModifiedDatetime;
     }
 

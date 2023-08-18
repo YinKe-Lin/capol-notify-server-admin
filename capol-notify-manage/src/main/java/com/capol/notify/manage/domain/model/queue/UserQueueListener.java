@@ -22,7 +22,14 @@ public interface UserQueueListener {
      *
      * @param queueIds
      */
-    void delete(List<Long> queueIds);
+    void deleteByIds(List<Long> queueIds);
+
+    /**
+     * 队列删除（每次删除队列时触发）
+     *
+     * @param queues
+     */
+    void deleteByQueues(List<UserQueueDO> queues);
 
     /**
      * 更改队列（每次更改队列时触发）

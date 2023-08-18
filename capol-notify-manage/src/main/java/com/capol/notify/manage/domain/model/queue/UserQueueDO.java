@@ -12,6 +12,8 @@ import org.apache.commons.lang3.Validate;
 
 /**
  * 业务系统用户消息队列
+ *
+ * @author heyong
  */
 @Getter
 @EqualsAndHashCode(callSuper = false)

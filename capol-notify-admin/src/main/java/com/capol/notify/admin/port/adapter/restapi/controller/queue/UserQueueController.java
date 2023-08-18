@@ -21,6 +21,11 @@ import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用户队列管理
+ *
+ * @author heyong
+ */
 @Validated
 @RestController
 @RequestMapping("/api/v1.0/admin/queue")
@@ -66,7 +71,9 @@ public class UserQueueController {
                 userQueueDTO.setPriority(userQueueData.getPriority());
                 userQueueDTOS.add(userQueueDTO);
             }
-            result = queueService.insertUserQueues(userQueueDTOS);
+            if (queueService.verificationUserQueues(userQueueDTOS)) {
+                result = queueService.insertUserQueues(userQueueDTOS);
+            }
         }
         return result;
     }
@@ -133,8 +140,9 @@ public class UserQueueController {
      * @return
      */
     @ApiOperation("分页获取当前用户的队列配置")
-    @GetMapping("/current-user-queues")
-    public PageResult<UserQueueDTO> queues(int pageNo, int pageSize) {
+    @GetMapping("/current-user-queues/{pageNo}/{pageSize}")
+    public PageResult<UserQueueDTO> queues(@PathVariable("pageNo") Integer pageNo,
+                                           @PathVariable("pageSize") Integer pageSize) {
         PageParam pageParam = new PageParam();
         pageParam.setPageNo(pageNo);
         pageParam.setPageSize(pageSize);

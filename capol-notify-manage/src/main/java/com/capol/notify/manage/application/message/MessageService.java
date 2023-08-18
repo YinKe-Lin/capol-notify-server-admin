@@ -42,18 +42,19 @@ public class MessageService {
     public UserQueueMessageDO getMessageById(Long id) {
         LambdaQueryWrapper<UserQueueMessageDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserQueueMessageDO::getId, id);
-        queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic注解
+         queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         return userQueueMessageMapper.selectOne(queryWrapper);
     }
 
     /**
-     * 删除指定Ids的消息(物理删除)
+     * 删除指定Ids的消息
      *
      * @param ids
      */
     public void deleteMessageByIds(List<Long> ids) {
         int rows = userQueueMessageMapper.deleteBatchIds(ids);
-        log.info("-->物理删除消息数:{}条! Ids：{}", rows, JSON.toJSONString(ids));
+        log.info("-->删除消息数:{}条! Ids：{}", rows, JSON.toJSONString(ids));
     }
 
     /**
@@ -69,7 +70,8 @@ public class MessageService {
         if (!SystemConstants.ADMIN_ID.equals(currentUserId)) {
             queryWrapper.eq(UserQueueMessageDO::getUserId, Long.valueOf(currentUserId));
         }
-        queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+         queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         queryWrapper.orderByAsc(UserQueueMessageDO::getCreatedDatetime);
 
         PageResult<UserQueueMessageDO> userQueueMessageDOPageResult = userQueueMessageMapper.selectPage(pageParam, queryWrapper);
@@ -106,7 +108,8 @@ public class MessageService {
         LambdaQueryWrapper<UserQueueMessageDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueMessageDO::getProcessStatus, statusTypes);
         queryWrapper.in(UserQueueMessageDO::getMessageType, types);
-        queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+         queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         queryWrapper.lt(UserQueueMessageDO::getRetryCount, retryMaxCount);
         queryWrapper.between(UserQueueMessageDO::getCreatedDatetime, startDateTime, endDataTime);
         queryWrapper.orderByAsc(UserQueueMessageDO::getCreatedDatetime);
@@ -138,7 +141,8 @@ public class MessageService {
         LambdaQueryWrapper<UserQueueMessageDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueMessageDO::getProcessStatus, statusTypes);
         queryWrapper.in(UserQueueMessageDO::getMessageType, types);
-        queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+         queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         queryWrapper.between(UserQueueMessageDO::getCreatedDatetime, startDateTime, endDataTime);
         queryWrapper.orderByAsc(UserQueueMessageDO::getCreatedDatetime);
 
@@ -154,7 +158,8 @@ public class MessageService {
      */
     public List<UserQueueMessageDO> getMessageByDateTime(String startDateTime, String endDataTime) {
         LambdaQueryWrapper<UserQueueMessageDO> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+         queryWrapper.eq(UserQueueMessageDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         queryWrapper.between(UserQueueMessageDO::getCreatedDatetime, startDateTime, endDataTime);
         queryWrapper.orderByAsc(UserQueueMessageDO::getCreatedDatetime);
 

@@ -52,6 +52,10 @@ public class DomainException extends RuntimeException {
         return args;
     }
 
+    public String getCode() {
+        return exceptionCode.getCode();
+    }
+
     @Override
     public String getMessage() {
         return StringUtils.isBlank(super.getMessage()) ? exceptionCode.getCode() : super.getMessage();

@@ -3,7 +3,6 @@ package com.capol.notify.manage.application.queue;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.capol.notify.manage.application.ApplicationException;
 import com.capol.notify.manage.domain.EnumExceptionCode;
-import com.capol.notify.manage.domain.EnumStatusType;
 import com.capol.notify.manage.domain.model.queue.UserQueueDO;
 import com.capol.notify.manage.domain.repository.UserQueueMapper;
 import com.rabbitmq.client.AMQP;
@@ -49,7 +48,8 @@ public class QueueMQService {
     public void registrationQueue() throws IOException, TimeoutException {
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserQueueDO::getDisabled, false);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
         this.registrationQueue(userQueueDOS);
     }

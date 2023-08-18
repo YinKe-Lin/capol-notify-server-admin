@@ -2,7 +2,6 @@ package com.capol.notify.admin.domain.model.listener;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.capol.notify.manage.application.queue.QueueMQService;
-import com.capol.notify.manage.domain.EnumStatusType;
 import com.capol.notify.manage.domain.model.queue.UserQueueDO;
 import com.capol.notify.manage.domain.model.queue.UserQueueListener;
 import com.capol.notify.manage.domain.repository.UserQueueMapper;
@@ -14,6 +13,8 @@ import java.util.List;
 
 /**
  * 用户队列操作监听器
+ *
+ * @author heyong
  */
 @Slf4j
 @Service
@@ -40,7 +41,8 @@ public class UserQueueListenerForOperation implements UserQueueListener {
         }
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueDO::getId, queueIds);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         try {
             List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
             queueMQService.registrationQueue(userQueueDOS);
@@ -56,14 +58,15 @@ public class UserQueueListenerForOperation implements UserQueueListener {
      * @param queueIds
      */
     @Override
-    public void delete(List<Long> queueIds) {
+    public void deleteByIds(List<Long> queueIds) {
         if (CollectionUtils.isEmpty(queueIds)) {
-            log.warn("-->指定的队列:{} 不存在, 数据库中没有该队列配置信息!", queueIds);
+            log.warn("-->指定的队列为空!");
             return;
         }
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueDO::getId, queueIds);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.DELETE.getCode());
+        /** status字段已启用@TableLogic注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.DELETE.getCode());*/
 
         try {
             List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
@@ -71,6 +74,25 @@ public class UserQueueListenerForOperation implements UserQueueListener {
             log.info("-->Admin端实现的【删除】监听事件, 向MQ删除队列成功!");
         } catch (Exception exception) {
             log.error("-->Admin端实现的【删除】监听事件, 向MQ删除队列失败!");
+        }
+    }
+
+    /**
+     * 队列删除（每次删除队列时触发）
+     *
+     * @param queues
+     */
+    @Override
+    public void deleteByQueues(List<UserQueueDO> queues) {
+        if (CollectionUtils.isEmpty(queues)) {
+            log.warn("-->指定的队列为空!");
+            return;
+        }
+        try {
+            queueMQService.deleteQueue(queues);
+            log.info("-->Admin端实现的【删除】监听事件, 向MQ删除队列成功!");
+        } catch (Exception exception) {
+            log.error("-->Admin端实现的【删除】监听事件, 向MQ删除队列失败! 失败详情:{}", exception.getMessage());
         }
     }
 
@@ -107,7 +129,8 @@ public class UserQueueListenerForOperation implements UserQueueListener {
         }
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueDO::getId, queueIds);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         try {
             List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
             queueMQService.registrationQueue(userQueueDOS);

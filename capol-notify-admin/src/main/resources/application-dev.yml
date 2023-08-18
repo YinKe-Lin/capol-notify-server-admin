@@ -58,7 +58,14 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     map-underscore-to-camel-case: true
-
+  global-config:
+    # 是否打印 Logo banner
+    banner: true
+    dbConfig:
+      # 逻辑已删除值
+      logicDeleteValue: 0
+      # 逻辑未删除值
+      logicNotDeleteValue: 1
 logging:
   level:
     com.baomidou.mybatisplus: DEBUG

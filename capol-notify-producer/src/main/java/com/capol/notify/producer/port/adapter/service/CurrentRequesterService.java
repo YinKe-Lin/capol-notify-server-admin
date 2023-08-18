@@ -7,6 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+/**
+ * 当前用户上下文
+ *
+ * @author heyong
+ */
 @Component
 public class CurrentRequesterService implements CurrentUserService {
 

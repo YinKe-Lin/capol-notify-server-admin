@@ -1,5 +1,6 @@
 package com.capol.notify.manage.application.message.querystack;
 
+import com.capol.notify.manage.domain.model.message.UserQueueMessageDO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -90,4 +91,22 @@ public class UserQueueMessageDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date consumerEndTime;
+
+    /**
+     * 通过Entity构造DTO
+     *
+     * @param queueMessageDO
+     * @return
+     */
+    public static UserQueueMessageDTO of(UserQueueMessageDO queueMessageDO) {
+        if (queueMessageDO != null) {
+            return new UserQueueMessageDTO(
+                    queueMessageDO.getServiceId(), queueMessageDO.getUserId(), queueMessageDO.getQueueId(),
+                    queueMessageDO.getPriority(), queueMessageDO.getMessageType(), queueMessageDO.getBusinessType(),
+                    queueMessageDO.getContent(), queueMessageDO.getSendResponse(), queueMessageDO.getProcessStatus(),
+                    queueMessageDO.getRetryCount(), queueMessageDO.getConsumerStartTime(), queueMessageDO.getConsumerEndTime());
+        } else {
+            return null;
+        }
+    }
 }

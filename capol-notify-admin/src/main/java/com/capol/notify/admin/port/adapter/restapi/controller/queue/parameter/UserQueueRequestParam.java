@@ -9,6 +9,11 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 添加队列
+ *
+ * @author heyong
+ */
 @Data
 public class UserQueueRequestParam {
     @ApiModelProperty(value = "业务系统用户ID", required = true)

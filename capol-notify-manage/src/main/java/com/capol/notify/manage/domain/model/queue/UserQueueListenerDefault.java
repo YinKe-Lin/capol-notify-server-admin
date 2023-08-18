@@ -28,8 +28,18 @@ public class UserQueueListenerDefault implements UserQueueListener {
      * @param queueIds
      */
     @Override
-    public void delete(List<Long> queueIds) {
+    public void deleteByIds(List<Long> queueIds) {
         log.info("-->队列:{} 删除（每次删除队列时触发）", queueIds);
+    }
+
+    /**
+     * 队列删除（每次删除队列时触发）
+     *
+     * @param queues
+     */
+    @Override
+    public void deleteByQueues(List<UserQueueDO> queues) {
+        log.info("-->队列:{} 删除（每次删除队列时触发）", queues);
     }
 
     /**

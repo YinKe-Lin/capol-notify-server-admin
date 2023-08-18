@@ -1,10 +1,17 @@
 package com.capol.notify.manage.domain;
 
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.capol.notify.manage.domain.model.CreateAndUpdateMetaObjectHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * mybatis-plus配置类
+ *
+ * @author heyong
+ */
 @Configuration
 public class MybatisPlusConfig {
     /**
@@ -15,6 +22,15 @@ public class MybatisPlusConfig {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         interceptor.addInnerInterceptor(paginationInnerInterceptor());
         return interceptor;
+    }
+
+    /**
+     * 元对象字段填充控制器
+     * 为系统字段填充值[创建人、创建时间、更新人、更新时间]
+     */
+    @Bean
+    public MetaObjectHandler metaObjectHandler() {
+        return new CreateAndUpdateMetaObjectHandler();
     }
 
     /**

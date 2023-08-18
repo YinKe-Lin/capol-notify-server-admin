@@ -46,6 +46,10 @@ public class CatchableDomainException extends Exception {
         return exceptionCode;
     }
 
+    public String getCode() {
+        return exceptionCode.getCode();
+    }
+
     public Object[] getArgs() {
         return args;
     }

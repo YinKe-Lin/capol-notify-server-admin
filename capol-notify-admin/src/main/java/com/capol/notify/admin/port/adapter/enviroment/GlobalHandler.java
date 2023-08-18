@@ -155,8 +155,9 @@ public class GlobalHandler implements ResponseBodyAdvice<Object> {
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             return new ErrorMessage(BadRequest, new CodeAndMessage("IllegalArgument", e.getMessage()));
         }
-        log.error("GlobalHandler-未知异常:{}", e);
-        return new ErrorMessage(InternalServerError, new CodeAndMessage("InternalServerError", e.getMessage()));
+
+        log.error("GlobalHandler-未捕获的异常:{}", e);
+        return new ErrorMessage(InternalServerError, new CodeAndMessage("InternalServerError", "系统内部异常,请联系管理员!"));
     }
 
     /**
@@ -212,7 +213,7 @@ public class GlobalHandler implements ResponseBodyAdvice<Object> {
             response.setStatusCode(errorMessage.getExceptionCode().httpStatus());
             String msg = errorMessage.getDefaultMsg() != null ? errorMessage.getDefaultMsg()
                     : errorMessage.getExceptionCode().getCode();
-            return ResponseBase.of(errorMessage.getExceptionCode().getCode(), msg, errorMessage.getContent());
+            return ResponseBase.of(String.valueOf(errorMessage.getExceptionCode().httpStatus().value()), msg, errorMessage.getContent());
         } else if (o instanceof JsonNode) {
             return ResponseBase.ok(o.toString());
         } else if (o instanceof String) {

@@ -50,7 +50,8 @@ public class QueueService {
         if (!SystemConstants.ADMIN_ID.equals(currentUserId)) {
             queryWrapper.eq(UserQueueDO::getUserId, currentUserId);
         }
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
 
         PageResult<UserQueueDO> userQueueDOPageResult = userQueueMapper.selectPage(pageParam, queryWrapper);
         List<UserQueueDTO> userQueueDTOS = userQueueDOPageResult.getList().stream()
@@ -81,7 +82,8 @@ public class QueueService {
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserQueueDO::getUserId, userId);
         queryWrapper.eq(UserQueueDO::getBusinessType, businessType);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         queryWrapper.eq(UserQueueDO::getDisabled, false);
 
         UserQueueDO userQueueDO = userQueueMapper.selectOne(queryWrapper);
@@ -100,6 +102,32 @@ public class QueueService {
             log.warn("-->用户ID:{} 业务类型:{} 的消息队列已禁用或不存在,请检查配置!", userId, businessType);
             return null;
         }
+    }
+
+    /**
+     * 校验队列是否合法
+     *
+     * @param userQueueDTOS
+     * @return
+     */
+    public Boolean verificationUserQueues(List<UserQueueDTO> userQueueDTOS) {
+        if (CollectionUtils.isNotEmpty(userQueueDTOS)) {
+            for (UserQueueDTO userQueue : userQueueDTOS) {
+                LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
+                queryWrapper
+                        .eq(UserQueueDO::getExchange, userQueue.getExchange())
+                        .eq(UserQueueDO::getRouting, userQueue.getRouting())
+                        .eq(UserQueueDO::getQueue, userQueue.getQueue());
+                if (userQueueMapper.selectCount(queryWrapper) > 0) {
+                    throw new ApplicationException(String.format("队列名称：%s 在指定的交换机:%s 路由:%s 下已经存在,不能重复添加!",
+                            userQueue.getQueue(),
+                            userQueue.getExchange(),
+                            userQueue.getRouting()), EnumExceptionCode.InternalServerError);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -153,7 +181,8 @@ public class QueueService {
         }
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueDO::getId, queueIds);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
         if (CollectionUtils.isEmpty(userQueueDOS)) {
             log.info("-->没有符合条件queueIds={}的队列信息!", queueIds);
@@ -164,14 +193,14 @@ public class QueueService {
         Map<String, Integer> countMaps = queueMQService.getQueueMessageCount(queueNames);
         if (countMaps.size() > 0) {
             log.error("-->队列:{}在消息服务器上还有未消费完的消息,暂时不能删除!", JSONObject.toJSONString(countMaps));
-            throw new ApplicationException(String.format("队列:{}在消息服务器上还有未消费完的消息,暂时不能删除!", JSONObject.toJSONString(countMaps)), EnumExceptionCode.InternalServerError);
+            throw new ApplicationException(String.format("队列:%s在消息服务器上还有未消费完的消息,暂时不能删除!", JSONObject.toJSONString(countMaps)), EnumExceptionCode.InternalServerError);
         } else {
             log.info("-->即将删除的队列名称及消息数量：{}", JSONObject.toJSONString(countMaps));
         }
-        rows = userQueueMapper.batchDeleteQueues(queueIds);
+        rows = userQueueMapper.deleteBatchIds(queueIds);
         if (rows > 0) {
             log.info("-->删除用户队列成功,影响行数:{} 行!", rows);
-            UserQueueEventCenter.doDelete(queueIds);
+            UserQueueEventCenter.doDeleteByQueues(userQueueDOS);
         } else {
             log.error("-->删除用户队列失败 , 队列Ids:{} ", queueIds);
         }
@@ -192,7 +221,8 @@ public class QueueService {
         }
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueDO::getId, queueIds);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         queryWrapper.eq(UserQueueDO::getDisabled, false);
         List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
         if (CollectionUtils.isEmpty(userQueueDOS)) {
@@ -223,7 +253,8 @@ public class QueueService {
         }
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(UserQueueDO::getId, queueIds);
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());
+        /** status字段已启用@TableLogic逻辑删除注解
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         queryWrapper.eq(UserQueueDO::getDisabled, true);
         List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
         if (CollectionUtils.isEmpty(userQueueDOS)) {

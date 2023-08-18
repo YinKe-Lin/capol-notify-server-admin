@@ -159,9 +159,20 @@ public class UserQueueEventCenter {
      *
      * @param queueIds
      */
-    public static void doDelete(List<Long> queueIds) {
+    public static void doDeleteByIds(List<Long> queueIds) {
         for (UserQueueListener listener : listeners) {
-            listener.delete(queueIds);
+            listener.deleteByIds(queueIds);
+        }
+    }
+
+    /**
+     * 删除队列事件发布
+     *
+     * @param queues
+     */
+    public static void doDeleteByQueues(List<UserQueueDO> queues) {
+        for (UserQueueListener listener : listeners) {
+            listener.deleteByQueues(queues);
         }
     }
 
