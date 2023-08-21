@@ -197,7 +197,7 @@ public class QueueService {
         } else {
             log.info("-->即将删除的队列名称及消息数量：{}", JSONObject.toJSONString(countMaps));
         }
-        rows = userQueueMapper.deleteBatchIds(queueIds);
+        rows = userQueueMapper.deleteBatchIds(userQueueDOS);
         if (rows > 0) {
             log.info("-->删除用户队列成功,影响行数:{} 行!", rows);
             UserQueueEventCenter.doDeleteByQueues(userQueueDOS);

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,9 +53,12 @@ public class MessageService {
      *
      * @param ids
      */
-    public void deleteMessageByIds(List<Long> ids) {
-        int rows = userQueueMessageMapper.deleteBatchIds(ids);
+    public int deleteMessageByIds(List<Long> ids) {
+        //int rows = userQueueMessageMapper.deleteBatchIds(ids);
+        List<UserQueueMessageDO> entityList = EntityUtils.getEntityListByIds(UserQueueMessageDO.class, new ArrayList<>(ids));
+        int rows = userQueueMessageMapper.logicDeleteBatchIds(entityList);
         log.info("-->删除消息数:{}条! Ids：{}", rows, JSON.toJSONString(ids));
+        return rows;
     }
 
     /**

@@ -87,3 +87,6 @@ CREATE TABLE IF NOT EXISTS `t_user_queue_message`
 
 
 
+
+-- 添加消息过期时间字段
+ALTER  table t_user_queue_message ADD COLUMN `ttl` INT  NULL  DEFAULT 10000 COMMENT '消息过期时间(毫秒)' AFTER `priority`;

@@ -76,8 +76,8 @@ public class UserQueueMessageDeleteJobHandler {
             }
             log.info("-->将要<删除的消息>内容:{}", JSON.toJSONString(userQueueMessageDOS));
             List<Long> ids = userQueueMessageDOS.stream().map(UserQueueMessageDO::getId).collect(Collectors.toList());
-            messageService.deleteMessageByIds(ids);
-            log.info("-->消息<删除>监控Job任务处理器执行成功!!!!");
+            int rows = messageService.deleteMessageByIds(ids);
+            log.info("-->消息<删除>监控Job任务处理器执行成功,删除消息:{}条!", rows);
             return ReturnT.SUCCESS;
         } catch (Exception exception) {
             log.error("-->消息<删除>监控Job任务处理器执行异常, 异常详情:{}", exception);

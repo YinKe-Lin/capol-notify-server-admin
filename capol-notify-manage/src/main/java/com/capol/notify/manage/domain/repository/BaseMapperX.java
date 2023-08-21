@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.injector.methods.LogicDeleteBatchByIds;
 import com.capol.notify.manage.domain.MyBatisUtils;
 import com.capol.notify.manage.domain.PageParam;
 import com.capol.notify.manage.domain.PageResult;
@@ -100,5 +102,13 @@ public interface BaseMapperX<T> extends BaseMapper<T> {
     default void updateBatch(T update) {
         update(update, new QueryWrapper<>());
     }
+
+    /**
+     * 批量逻辑删除，会对 FieldFill中UPDATE字段数据进行更新 {@link LogicDeleteBatchByIds}
+     *
+     * @param entityList 实体列表，列表中实体只需要指定id即可(不能为 null 以及 empty)
+     * @return 更新行数
+     */
+    int logicDeleteBatchIds(@Param(Constants.COLL) Collection<?> entityList);
 
 }

@@ -16,6 +16,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -113,8 +114,11 @@ public class QueueMQService {
                  * //一般设置10个优先级，数字越大，优先级越高, 官方允许是 0-255 之间 此处设置10 允许优化级范围0-10 不要设置过大 浪费CPU与内存
                  * arguments.put("x-max-priority", queue.getPriority());
                  */
+                Map<String, Object> args = new HashMap<>(1);
+                // 声明队列的 TTL时间(毫秒)
+                args.put("x-message-ttl", 10000);
                 //创建队列
-                channel.queueDeclare(queue.getQueue(), true, false, false, null);
+                channel.queueDeclare(queue.getQueue(), true, false, false, args);
                 //队列绑定交换机
                 channel.queueBind(queue.getQueue(), queue.getExchange(), queue.getRouting());
                 log.info("-->创建队列:{} 成功! 绑定的交换机:{},路由:{}", queue.getQueue(), queue.getExchange(), queue.getRouting());

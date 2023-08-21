@@ -1,6 +1,7 @@
 package com.capol.notify.manage.domain;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.capol.notify.manage.domain.model.CreateAndUpdateMetaObjectHandler;
@@ -31,6 +32,14 @@ public class MybatisPlusConfig {
     @Bean
     public MetaObjectHandler metaObjectHandler() {
         return new CreateAndUpdateMetaObjectHandler();
+    }
+
+    /**
+     * sql注入器扩展
+     */
+    @Bean
+    public ISqlInjector iSqlInjector() {
+        return new MybatisPlusSqlInjector();
     }
 
     /**

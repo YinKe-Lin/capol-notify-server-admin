@@ -2,6 +2,7 @@ package com.capol.notify.manage.application.user;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.capol.notify.manage.application.ApplicationException;
 import com.capol.notify.manage.application.user.querystack.AuthenticateTokenDTO;
 import com.capol.notify.manage.application.user.querystack.UserDTO;
@@ -15,10 +16,12 @@ import com.capol.notify.manage.domain.model.user.UserId;
 import com.capol.notify.manage.domain.repository.UserMapper;
 import com.capol.notify.manage.domain.repository.UserQueueMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -107,6 +110,25 @@ public class UserService {
         } else {
             log.error("-->插入用户:{} 失败 , 用户详情:{} ", userDO.getAccount(), JSONObject.toJSONString(userDO));
         }
+        return rows;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param userIds
+     * @return
+     */
+    public int deleteUser(List<Long> userIds) {
+        int rows = 0;
+        if (CollectionUtils.isEmpty(userIds)) {
+            log.warn("-->指的删除条件userIds={},不能为空!", userIds);
+            return rows;
+        }
+        LambdaQueryWrapper<UserDO> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(UserDO::getId, userIds);
+        List<UserDO> userDOS = userMapper.selectList(queryWrapper);
+        rows = userMapper.deleteBatchIds(userDOS);
         return rows;
     }
 
