@@ -41,6 +41,12 @@ public class UserQueueMessageDTO {
     private Integer priority;
 
     /**
+     * 消息过期时间
+     */
+    @ApiModelProperty("消息过期时间")
+    private Integer ttl;
+
+    /**
      * 消息类型(1-钉钉普通消息 2-钉钉群组消息 3-邮件消息)
      */
     @ApiModelProperty("消息类型(1-钉钉普通消息 2-钉钉群组消息 3-邮件消息)")
@@ -102,9 +108,11 @@ public class UserQueueMessageDTO {
         if (queueMessageDO != null) {
             return new UserQueueMessageDTO(
                     queueMessageDO.getServiceId(), queueMessageDO.getUserId(), queueMessageDO.getQueueId(),
-                    queueMessageDO.getPriority(), queueMessageDO.getMessageType(), queueMessageDO.getBusinessType(),
-                    queueMessageDO.getContent(), queueMessageDO.getSendResponse(), queueMessageDO.getProcessStatus(),
-                    queueMessageDO.getRetryCount(), queueMessageDO.getConsumerStartTime(), queueMessageDO.getConsumerEndTime());
+                    queueMessageDO.getPriority(), queueMessageDO.getTtl(), queueMessageDO.getMessageType(),
+                    queueMessageDO.getBusinessType(), queueMessageDO.getContent(),
+                    queueMessageDO.getSendResponse(), queueMessageDO.getProcessStatus(),
+                    queueMessageDO.getRetryCount(), queueMessageDO.getConsumerStartTime(),
+                    queueMessageDO.getConsumerEndTime());
         } else {
             return null;
         }

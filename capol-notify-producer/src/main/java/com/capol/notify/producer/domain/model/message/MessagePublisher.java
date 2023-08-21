@@ -121,8 +121,9 @@ public class MessagePublisher {
      * @param queue     发送消息的队列
      * @param priority  消息优先级
      * @param messageId 消息ID
+     * @param ttl       消息过期时间
      */
-    public void messageSender(Object content, String queue, Integer priority, String messageId) {
+    public void messageSender(Object content, String queue, Integer priority, String messageId, Integer ttl) {
         //开启confirm机制，当消息发送到Exchange后回调confirm方法，在方法中判断ack，如果为true，则发送成功。如果为false，则发送失败
         rabbitTemplate.setConfirmCallback(confirmCallback);
 
@@ -142,6 +143,9 @@ public class MessagePublisher {
             message.getMessageProperties().setPriority(priority);
             // 设置消息ID
             message.getMessageProperties().setMessageId(messageId);
+            //设置message的过期时间
+            //过期消息的消息队列则会立马删除掉该消息
+            message.getMessageProperties().setExpiration(String.valueOf(ttl));
             // 消息持久化
             message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
             return message;

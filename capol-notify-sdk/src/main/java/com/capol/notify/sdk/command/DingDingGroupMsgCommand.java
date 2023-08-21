@@ -21,11 +21,12 @@ public class DingDingGroupMsgCommand extends BaseMsgCommand {
      */
     private String content;
 
-    public DingDingGroupMsgCommand(String chatId, String content, Integer priority, EnumMessageType messageType,
-                                   EnumMessageContentType contentType, String businessType) {
+    public DingDingGroupMsgCommand(String chatId, String content, Integer priority, Integer ttl,
+                                   EnumMessageType messageType, EnumMessageContentType contentType, String businessType) {
         this.chatId = chatId;
         this.content = content;
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setContentType(contentType);
         this.setBusinessType(businessType);

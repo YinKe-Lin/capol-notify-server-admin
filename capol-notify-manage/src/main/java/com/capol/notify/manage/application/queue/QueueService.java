@@ -62,6 +62,7 @@ public class QueueService {
                         queue.getRouting(),
                         queue.getQueue(),
                         queue.getPriority(),
+                        queue.getTtl(),
                         queue.getBusinessType(),
                         queue.getDisabled()
                 )).collect(Collectors.toList());
@@ -95,6 +96,7 @@ public class QueueService {
                     userQueueDO.getRouting(),
                     userQueueDO.getQueue(),
                     userQueueDO.getPriority(),
+                    userQueueDO.getTtl(),
                     userQueueDO.getBusinessType(),
                     userQueueDO.getDisabled()
             );
@@ -150,6 +152,7 @@ public class QueueService {
                     o.getRouting(),
                     o.getQueue(),
                     o.getPriority(),
+                    o.getTtl(),
                     o.getBusinessType()
             );
             userQueueDO.buildBaseInfo();

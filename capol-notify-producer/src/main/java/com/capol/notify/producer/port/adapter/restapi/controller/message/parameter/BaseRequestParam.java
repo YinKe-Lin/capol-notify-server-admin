@@ -20,6 +20,9 @@ public class BaseRequestParam {
     @ApiModelProperty("消息优先级")
     private Integer priority;
 
+    @ApiModelProperty("消息过期时间")
+    private Integer ttl;
+
     @ApiModelProperty("消息业务类型")
     @NotNull(message = "消息业务类型不允许为空!")
     private String businessType;

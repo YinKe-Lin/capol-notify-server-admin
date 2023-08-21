@@ -69,6 +69,7 @@ public class UserQueueController {
                 userQueueDTO.setRouting(userQueueData.getRouting());
                 userQueueDTO.setExchange(userQueueData.getExchange());
                 userQueueDTO.setPriority(userQueueData.getPriority());
+                userQueueDTO.setTtl(userQueueData.getTtl());
                 userQueueDTOS.add(userQueueDTO);
             }
             if (queueService.verificationUserQueues(userQueueDTOS)) {

@@ -48,8 +48,8 @@ spring:
     port: 5672
     username: bimAdmin
     password: admin_2020_prod
-    #虚拟host 可以不设置,使用server默认host
-    virtual-host: CapolNotifyVHost
+    #虚拟host (CapolNotifyVHost)可以不设置,使用server默认host
+    virtual-host: cooperative_vhost
     publisher-returns: true #开启confirm确认模式
     publisher-confirm-type: correlated
 

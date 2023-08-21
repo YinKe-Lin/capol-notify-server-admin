@@ -45,7 +45,8 @@ public class MessageConsumer implements Consumer {
                 log.debug("消息MessageID为:{}", properties.getMessageId());
                 log.debug("消息优先级：{}", properties.getPriority());
             }
-            // 处理发送钉钉消息的逻辑
+
+            //消息消费回调修改消息状态
             if (messageReceiveConfirmCallback != null) {
                 messageReceiveConfirmCallback.receiveConfirmCallback(true, Long.valueOf(messageId), null);
             }

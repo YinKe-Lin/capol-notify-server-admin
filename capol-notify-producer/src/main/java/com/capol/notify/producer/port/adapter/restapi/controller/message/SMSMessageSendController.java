@@ -54,6 +54,7 @@ public class SMSMessageSendController {
         smsMsgCommand.setMessageType(EnumMessageType.SMS_MESSAGE);
         smsMsgCommand.setBusinessType(businessType);
         smsMsgCommand.setPriority(1);
+        smsMsgCommand.setTtl(100000);
         sendMessageService.sendSMSMsg(smsMsgCommand);
     }
 
@@ -70,6 +71,7 @@ public class SMSMessageSendController {
         smsMsgCommand.setMessageType(EnumMessageType.SMS_MESSAGE);
         smsMsgCommand.setBusinessType(businessType);
         smsMsgCommand.setPriority(1);
+        smsMsgCommand.setTtl(100000);
         sendMessageService.sendSMSMsg(smsMsgCommand);
     }
 
@@ -99,6 +101,7 @@ public class SMSMessageSendController {
         //通用接口需要从业务端传入BusinessType, 否则消息平台需要枚举BusinessType, 会造成跟业务耦合。
         smsMsgCommand.setBusinessType(messageRequestParam.getBusinessType());
         smsMsgCommand.setPriority(messageRequestParam.getPriority());
+        smsMsgCommand.setTtl(messageRequestParam.getTtl());
         sendMessageService.sendSMSMsg(smsMsgCommand);
     }
 
@@ -114,6 +117,7 @@ public class SMSMessageSendController {
         //通用接口需要从业务端传入BusinessType, 否则消息平台需要枚举BusinessType, 会造成跟业务耦合。
         smsMsgCommand.setBusinessType(messageRequestParam.getBusinessType());
         smsMsgCommand.setPriority(2);
+        smsMsgCommand.setTtl(100000);
         sendMessageService.sendSMSMsg(smsMsgCommand);
     }
 
@@ -146,6 +150,7 @@ public class SMSMessageSendController {
         notifyMsgCommand.setMessageType(EnumMessageType.SMS_MESSAGE);
         notifyMsgCommand.setBusinessType(businessType);
         notifyMsgCommand.setPriority(1);
+        notifyMsgCommand.setTtl(100000);
         sendMessageService.sendSMSMsg(notifyMsgCommand);
     }
 

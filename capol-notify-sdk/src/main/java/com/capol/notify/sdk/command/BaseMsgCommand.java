@@ -24,6 +24,11 @@ public class BaseMsgCommand implements Serializable {
     private Integer priority;
 
     /**
+     * 消息过期时间
+     */
+    private Integer ttl;
+
+    /**
      * 消息类型(1-钉钉普通消息 2-钉钉群组消息 3-微信消息 4-邮件消息 5-短信消息)
      */
     private EnumMessageType messageType;

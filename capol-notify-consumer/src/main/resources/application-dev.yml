@@ -49,8 +49,8 @@ spring:
     port: 5672
     username: bimAdmin
     password: admin_2020_prod
-    #虚拟host 可以不设置,使用server默认host
-    virtual-host: CapolNotifyVHost
+    #虚拟host (CapolNotifyVHost)可以不设置,使用server默认host
+    virtual-host: cooperative_vhost
     listener:
       simple:
         # 消费者最小数量

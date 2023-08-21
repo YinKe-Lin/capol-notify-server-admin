@@ -47,6 +47,10 @@ public class UserQueueDO extends BaseEntity {
     private Integer priority;
 
     /**
+     * 队列消息过期时间
+     */
+    private Integer ttl;
+    /**
      * 队列业务类型
      */
     private String businessType;
@@ -56,7 +60,7 @@ public class UserQueueDO extends BaseEntity {
      */
     private Boolean disabled;
 
-    public UserQueueDO(UserId userId, String exchange, String routing, String queue, Integer priority, String businessType) {
+    public UserQueueDO(UserId userId, String exchange, String routing, String queue, Integer priority, Integer ttl, String businessType) {
         Validate.notNull(userId, "UserID must be provided.");
         Validate.notBlank(exchange, "Exchange must not be null.");
         Validate.notBlank(exchange, "Routing must not be null.");
@@ -67,6 +71,7 @@ public class UserQueueDO extends BaseEntity {
         this.routing = routing;
         this.queue = queue;
         this.priority = priority;
+        this.ttl = ttl;
         this.businessType = businessType;
     }
 }

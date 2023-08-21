@@ -53,16 +53,19 @@ public class MQMessageSaveAspect {
         if (log.isDebugEnabled()) {
             log.debug("-->消息发送成功切面进入执行!");
         }
+
         Object message = joinPoint.getArgs()[mqMessageSave.argsIndex()];
         Object messageId = ReflectionUtils.getFieldValue(message, "messageId");
         Object userId = ReflectionUtils.getFieldValue(message, "userId");
         Object messageType = ReflectionUtils.getFieldValue(message, "messageType");
         Object businessType = ReflectionUtils.getFieldValue(message, "businessType");
         Object priority = ReflectionUtils.getFieldValue(message, "priority");
+        Object ttl = ReflectionUtils.getFieldValue(message, "ttl");
 
         this.processMessageContent(
                 Long.valueOf(String.valueOf(messageId)),
-                Integer.valueOf(String.valueOf(priority)),
+                priority != null ? Integer.valueOf(String.valueOf(priority)) : null,
+                ttl != null ? Integer.valueOf(String.valueOf(ttl)) : null,
                 String.valueOf(userId),
                 EnumMessageType.ofValue(String.valueOf(messageType)),
                 String.valueOf(businessType),
@@ -83,16 +86,19 @@ public class MQMessageSaveAspect {
     public void afterThrowing(JoinPoint joinPoint, MQMessageSave mqMessageSave, Throwable exception) {
         log.error("-->消息发送异常切面进入执行!");
         log.error("-->异常原因：" + exception);
+
         Object message = joinPoint.getArgs()[mqMessageSave.argsIndex()];
         Object messageId = ReflectionUtils.getFieldValue(message, "messageId");
         Object userId = ReflectionUtils.getFieldValue(message, "userId");
         Object messageType = ReflectionUtils.getFieldValue(message, "messageType");
         Object businessType = ReflectionUtils.getFieldValue(message, "businessType");
         Object priority = ReflectionUtils.getFieldValue(message, "priority");
+        Object ttl = ReflectionUtils.getFieldValue(message, "ttl");
 
         this.processMessageContent(
                 Long.valueOf(String.valueOf(messageId)),
-                Integer.valueOf(String.valueOf(priority)),
+                priority != null ? Integer.valueOf(String.valueOf(priority)) : null,
+                ttl != null ? Integer.valueOf(String.valueOf(ttl)) : null,
                 String.valueOf(userId),
                 EnumMessageType.ofValue(String.valueOf(messageType)),
                 String.valueOf(businessType),
@@ -101,7 +107,21 @@ public class MQMessageSaveAspect {
         log.error("-->消息发送异常切面执行完成!");
     }
 
-    private void processMessageContent(Long messageId, Integer priority, String userId, EnumMessageType messageType, String messageBusinessType, EnumProcessStatusType processStatusType, Object message) {
+    /**
+     * 消息处理
+     *
+     * @param messageId           消息ID
+     * @param priority            消息优先级
+     * @param ttl                 消息过期时间
+     * @param userId              用户ID
+     * @param messageType         消息类型
+     * @param messageBusinessType 消息业务类型
+     * @param processStatusType   处理状态
+     * @param message             消息内容
+     */
+    private void processMessageContent(Long messageId, Integer priority, Integer ttl, String userId,
+                                       EnumMessageType messageType, String messageBusinessType,
+                                       EnumProcessStatusType processStatusType, Object message) {
         UserQueueMessageDO userQueueMessageDO = messageService.getMessageById(messageId);
 
         UserDTO userDTO = userService.userBaseInfo(userId);
@@ -124,6 +144,7 @@ public class MQMessageSaveAspect {
             userQueueMessageDO.setUserId(Long.valueOf(userId));
             userQueueMessageDO.setQueueId(userQueueDTO.getQueueId());
             userQueueMessageDO.setPriority(priority);
+            userQueueMessageDO.setTtl(ttl);
             userQueueMessageDO.setMessageType(messageType.getCode());
             userQueueMessageDO.setBusinessType(messageBusinessType);
             userQueueMessageDO.setRetryCount(0);

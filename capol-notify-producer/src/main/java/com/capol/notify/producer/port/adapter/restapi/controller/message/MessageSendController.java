@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @Validated
 @RestController
 @RequestMapping("/api/v1.0/service/message")
-@Api(tags = "消息发送服务")
+@Api(tags = "邮件、微信、钉钉消息发送服务")
 public class MessageSendController {
 
     private final SendMessageService sendMessageService;
@@ -46,6 +46,7 @@ public class MessageSendController {
                 request.getData(),
                 request.getMiniProgram(),
                 request.getPriority(),
+                request.getTtl(),
                 EnumMessageType.WECHAT_MESSAGE,
                 request.getBusinessType()));
     }
@@ -65,6 +66,7 @@ public class MessageSendController {
                 request.getTo(),
                 request.getCc(),
                 request.getPriority(),
+                request.getTtl(),
                 EnumMessageType.EMAIL_MESSAGE,
                 request.getBusinessType()));
     }
@@ -103,6 +105,7 @@ public class MessageSendController {
                             request.getAgentId(),
                             request.getContent(),
                             request.getPriority(),
+                            request.getTtl(),
                             request.getMessageType(),
                             request.getContentType(),
                             request.getBusinessType(),
@@ -127,6 +130,7 @@ public class MessageSendController {
                             request.getAgentId(),
                             request.getContent(),
                             request.getPriority(),
+                            request.getTtl(),
                             request.getMessageType(),
                             request.getContentType(),
                             request.getBusinessType(),
@@ -142,6 +146,7 @@ public class MessageSendController {
                         request.getChatId(),
                         request.getContent(),
                         request.getPriority(),
+                        request.getTtl(),
                         request.getMessageType(),
                         request.getContentType(),
                         request.getBusinessType()));

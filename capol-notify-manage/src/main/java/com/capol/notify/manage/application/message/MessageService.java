@@ -79,9 +79,10 @@ public class MessageService {
         queryWrapper.orderByAsc(UserQueueMessageDO::getCreatedDatetime);
 
         PageResult<UserQueueMessageDO> userQueueMessageDOPageResult = userQueueMessageMapper.selectPage(pageParam, queryWrapper);
-        List<UserQueueMessageDTO> userQueueMessageDTOS = userQueueMessageDOPageResult.getList().stream().map(o -> new UserQueueMessageDTO(
+        List<UserQueueMessageDTO> userQueueMessageDTOS = userQueueMessageDOPageResult.getList().stream().map(o ->
+                new UserQueueMessageDTO(
                 o.getServiceId(), o.getUserId(), o.getQueueId(),
-                o.getPriority(), o.getMessageType(), o.getBusinessType(),
+                o.getPriority(), o.getTtl(), o.getMessageType(), o.getBusinessType(),
                 o.getContent(), o.getSendResponse(), o.getProcessStatus(),
                 o.getRetryCount(), o.getConsumerStartTime(), o.getConsumerEndTime()
         )).collect(Collectors.toList());

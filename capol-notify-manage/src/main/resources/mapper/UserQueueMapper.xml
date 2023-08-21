@@ -9,6 +9,7 @@
         <result property="routing" column="routing" jdbcType="VARCHAR"/>
         <result property="queue" column="queue" jdbcType="VARCHAR"/>
         <result property="priority" column="priority" jdbcType="INTEGER"/>
+        <result property="ttl" column="ttl" jdbcType="INTEGER"/>
         <result property="businessType" column="business_type" jdbcType="VARCHAR"/>
         <result property="disabled" column="disabled" jdbcType="BIT"/>
         <result property="status" column="status" jdbcType="TINYINT"/>
@@ -26,6 +27,7 @@
         `routing`,
         `queue`,
         `priority`,
+        `ttl`,
         `business_type`,
         `disabled`
     </sql>
@@ -43,6 +45,7 @@
         routing,
         queue,
         priority,
+        ttl,
         business_type,
         disabled,
         status,
@@ -57,6 +60,7 @@
             #{userQueue.routing},
             #{userQueue.queue},
             #{userQueue.priority},
+            #{userQueue.ttl},
             #{userQueue.businessType},
             #{userQueue.disabled},
             #{userQueue.status},

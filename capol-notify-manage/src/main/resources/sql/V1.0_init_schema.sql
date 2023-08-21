@@ -41,12 +41,14 @@ CREATE TABLE IF NOT EXISTS `t_user_queue`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '业务系统使用的队列';
 
+-- 添加消息过期时间字段
+ALTER  table t_user_queue ADD COLUMN `ttl` INT NOT NULL  DEFAULT 100000 COMMENT '消息过期时间(毫秒)' AFTER `priority`;
 
 INSERT INTO db_capol_notify.t_user_queue
 (id, user_id, exchange, routing, queue, business_type, priority, disabled, status, created_datetime, latest_modified_datetime)
 VALUES
-(1830828142233215, 1830828142927777, 'workflow_notify_exchange', 'workflow.notify.queue.reject.routing', 'workflow.notify.queue.reject', 'WORKFLOW_FOR_REJECT', 1, 0, 1, '2023-05-06 10:05:00', '2023-05-06 10:05:00')
-,(1830828142233216, 1830828142927777, 'workflow_notify_exchange', 'orkflow.notify.queue.completed.routing', 'workflow.notify.queue.completed', 'WORKFLOW_FOR_COMPLETED', 1, 0, 1, '2023-05-06 10:05:00', '2023-05-06 10:05:00')
+ (1830828142233215, 1830828142927777, 'workflow_notify_exchange', 'workflow.notify.queue.reject.routing', 'workflow.notify.queue.reject', 'WORKFLOW_FOR_REJECT', 1, 0, 1, '2023-05-06 10:05:00', '2023-05-06 10:05:00')
+,(1830828142233216, 1830828142927777, 'workflow_notify_exchange', 'workflow.notify.queue.completed.routing', 'workflow.notify.queue.completed', 'WORKFLOW_FOR_COMPLETED', 1, 0, 1, '2023-05-06 10:05:00', '2023-05-06 10:05:00')
 ,(1830828142233217, 1830828142927777, 'workflow_notify_exchange', 'workflow.notify.queue.assignment.routing', 'workflow.notify.queue.assignment', 'WORKFLOW_FOR_ASSIGNMENT', 1, 0, 1, '2023-05-06 10:05:00', '2023-05-06 10:05:00')
 ,(1830828142233218, 1830828142927777, 'workflow_notify_exchange', 'workflow.notify.queue.delay.routing', 'workflow.notify.queue.delay', 'WORKFLOW_FOR_DELAY', 1, 0, 1, '2023-05-06 10:05:00', '2023-05-06 10:05:00')
 ,(1830828142233219, 1830828142927777, 'workflow_notify_exchange', 'workflow.notify.queue.comment.routing', 'workflow.notify.queue.comment', 'WORKFLOW_FOR_COMMENT', 1, 0, 1, '2023-05-06 10:05:00', '2023-05-06 10:05:00')
@@ -86,7 +88,5 @@ CREATE TABLE IF NOT EXISTS `t_user_queue_message`
   DEFAULT CHARSET = utf8mb4 COMMENT '业务系统消息表';
 
 
-
-
 -- 添加消息过期时间字段
-ALTER  table t_user_queue_message ADD COLUMN `ttl` INT  NULL  DEFAULT 10000 COMMENT '消息过期时间(毫秒)' AFTER `priority`;
+ALTER  table t_user_queue_message ADD COLUMN `ttl` INT  NOT NULL  DEFAULT 100000 COMMENT '消息过期时间(毫秒)' AFTER `priority`;

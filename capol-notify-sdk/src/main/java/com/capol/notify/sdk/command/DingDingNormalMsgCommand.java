@@ -41,45 +41,49 @@ public class DingDingNormalMsgCommand extends BaseMsgCommand {
     }
 
     public DingDingNormalMsgCommand(List<String> userIds, Long agentId, String content, Integer priority,
-                                    EnumMessageType messageType, EnumMessageContentType contentType,
+                                    Integer ttl, EnumMessageType messageType, EnumMessageContentType contentType,
                                     String businessType) {
         this.userIds = userIds;
         this.agentId = agentId;
         this.content = content;
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setContentType(contentType);
         this.setBusinessType(businessType);
     }
 
     public DingDingNormalMsgCommand(List<String> userIds, Long agentId, String content, Integer priority,
-                                    EnumMessageType messageType, EnumMessageContentType contentType,
+                                    Integer ttl, EnumMessageType messageType, EnumMessageContentType contentType,
                                     String businessType, OAContentCommand oaContent) {
         this.userIds = userIds;
         this.agentId = agentId;
         this.content = content;
         this.oaContent = oaContent;
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setContentType(contentType);
         this.setBusinessType(businessType);
     }
 
 
-    public DingDingNormalMsgCommand(List<String> userIds, Long agentId, String content, Integer priority, EnumMessageType messageType,
-                                    EnumMessageContentType contentType, String businessType, ActionCardCommand actionCard) {
+    public DingDingNormalMsgCommand(List<String> userIds, Long agentId, String content, Integer priority,
+                                    Integer ttl, EnumMessageType messageType, EnumMessageContentType contentType,
+                                    String businessType, ActionCardCommand actionCard) {
         this.userIds = userIds;
         this.agentId = agentId;
         this.content = content;
         this.actionCard = actionCard;
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setContentType(contentType);
         this.setBusinessType(businessType);
     }
 
     public DingDingNormalMsgCommand(List<String> userIds, Long agentId, String content, Long messageId,
-                                    Long userId, Integer priority, EnumMessageType messageType,
+                                    Long userId, Integer priority, Integer ttl, EnumMessageType messageType,
                                     EnumMessageContentType contentType, String businessType) {
         this.userIds = userIds;
         this.agentId = agentId;
@@ -87,6 +91,7 @@ public class DingDingNormalMsgCommand extends BaseMsgCommand {
         this.setMessageId(messageId);
         this.setUserId(userId);
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setContentType(contentType);
         this.setBusinessType(businessType);

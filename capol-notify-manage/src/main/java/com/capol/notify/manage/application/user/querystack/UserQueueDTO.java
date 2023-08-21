@@ -46,6 +46,12 @@ public class UserQueueDTO {
     private Integer priority;
 
     /**
+     * 队列消息过期时间
+     */
+    @ApiModelProperty("队列消息过期时间")
+    private Integer ttl;
+
+    /**
      * 队列业务类型
      */
     @ApiModelProperty("队列业务类型")
@@ -57,13 +63,15 @@ public class UserQueueDTO {
     @ApiModelProperty("是否禁用")
     private Boolean disabled;
 
-    public UserQueueDTO(Long queueId, UserId userId, String exchange, String routing, String queue, Integer priority, String businessType, Boolean disabled) {
+    public UserQueueDTO(Long queueId, UserId userId, String exchange, String routing, String queue,
+                        Integer priority, Integer ttl, String businessType, Boolean disabled) {
         this.queueId = queueId;
         this.userId = userId;
         this.exchange = exchange;
         this.routing = routing;
         this.queue = queue;
         this.priority = priority;
+        this.ttl = ttl;
         this.businessType = businessType;
         this.disabled = disabled;
     }

@@ -63,11 +63,15 @@ public class UserService {
     public AuthenticateTokenDTO authenticateByPassword(String account, String password) {
         UserDescriptor descriptor = authenticationService.authenticateByPassword(account, password);
         if (descriptor == null) {
-            throw new ApplicationException(String.format("登录失败,账户: %s不存在!", account), EnumExceptionCode.UserNotExists);
+            throw new ApplicationException(
+                    String.format("登录失败,账户: %s不存在!", account),
+                    EnumExceptionCode.UserNotExists);
         }
 
         if (log.isDebugEnabled()) {
-            log.debug(">>>>>> 业务系统用户 {}({}) 通过密码方式访问消息服务.", descriptor.getName(), descriptor.getUserId());
+            log.debug(">>>>>> 业务系统用户 {}({}) 通过密码方式访问消息服务.",
+                    descriptor.getName(),
+                    descriptor.getUserId());
         }
         AuthenticateToken token = tokenService.generateToken(descriptor);
         return new AuthenticateTokenDTO(
@@ -141,7 +145,9 @@ public class UserService {
     public UserInfoDTO userInfo(String anUserId) {
         UserDO user = userMapper.findByUserId(new UserId(anUserId));
         if (user == null) {
-            throw new ApplicationException(String.format("账户ID:<%s>不存在!", anUserId), EnumExceptionCode.UserNotExists);
+            throw new ApplicationException(
+                    String.format("账户ID:<%s>不存在!", anUserId),
+                    EnumExceptionCode.UserNotExists);
         }
         return new UserInfoDTO(
                 user.getUserId().getId(),
@@ -155,6 +161,7 @@ public class UserService {
                                 queue.getRouting(),
                                 queue.getQueue(),
                                 queue.getPriority(),
+                                queue.getTtl(),
                                 queue.getBusinessType(),
                                 queue.getDisabled()
                         )).collect(Collectors.toList())
@@ -172,7 +179,13 @@ public class UserService {
         if (user == null) {
             return null;
         }
-        return new UserDTO(user.getUserId().getId(), user.getAccount(), user.getPassword(), user.getServiceId(), user.getServiceName(), user.getDisabled());
+        return new UserDTO(
+                user.getUserId().getId(),
+                user.getAccount(),
+                user.getPassword(),
+                user.getServiceId(),
+                user.getServiceName(),
+                user.getDisabled());
     }
 
     /**
@@ -185,12 +198,22 @@ public class UserService {
     public UserDTO userServiceInfo(String serviceId) {
         UserDO user = userMapper.findByServiceId(serviceId);
         if (user == null) {
-            throw new ApplicationException(String.format("服务ID:<%s>不存在!", serviceId), EnumExceptionCode.UserNotExists);
+            throw new ApplicationException(
+                    String.format("服务ID:<%s>不存在!", serviceId),
+                    EnumExceptionCode.UserNotExists);
         }
         if (user.getDisabled()) {
-            throw new ApplicationException(String.format("服务ID:<%s>已经被禁用!", serviceId), EnumExceptionCode.Forbidden);
+            throw new ApplicationException(
+                    String.format("服务ID:<%s>已经被禁用!", serviceId),
+                    EnumExceptionCode.Forbidden);
         }
-        return new UserDTO(user.getUserId().getId(), user.getAccount(), user.getPassword(), user.getServiceId(), user.getServiceName(), user.getDisabled());
+        return new UserDTO(
+                user.getUserId().getId(),
+                user.getAccount(),
+                user.getPassword(),
+                user.getServiceId(),
+                user.getServiceName(),
+                user.getDisabled());
     }
 
     /**
@@ -204,11 +227,15 @@ public class UserService {
         UserDO user = userMapper.findByServiceId(serviceId);
         if (user == null) {
             log.warn("-->服务ID:<{}>不存在!", serviceId);
-            throw new ApplicationException(String.format("服务ID:<%s>不存在!", serviceId), EnumExceptionCode.UserNotExists);
+            throw new ApplicationException(
+                    String.format("服务ID:<%s>不存在!", serviceId),
+                    EnumExceptionCode.UserNotExists);
         }
         if (user.getDisabled()) {
             log.warn("-->服务ID:<{}>已经被禁用!", serviceId);
-            throw new ApplicationException(String.format("服务ID:<%s>已经被禁用!", serviceId), EnumExceptionCode.Forbidden);
+            throw new ApplicationException(
+                    String.format("服务ID:<%s>已经被禁用!", serviceId),
+                    EnumExceptionCode.Forbidden);
         }
         return user.userDescriptor();
     }

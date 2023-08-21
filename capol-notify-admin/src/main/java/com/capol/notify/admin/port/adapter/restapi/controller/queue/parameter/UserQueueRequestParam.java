@@ -61,6 +61,12 @@ public class UserQueueRequestParam {
         private Integer priority;
 
         /**
+         * 队列优先级
+         */
+        @ApiModelProperty("队列过期时间")
+        private Integer ttl;
+
+        /**
          * 队列业务类型
          */
         @ApiModelProperty(value = "队列业务类型", required = true)

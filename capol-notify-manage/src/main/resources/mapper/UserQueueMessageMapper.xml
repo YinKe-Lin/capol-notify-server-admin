@@ -9,6 +9,7 @@
         <result property="userId" column="user_id" jdbcType="BIGINT"/>
         <result property="queueId" column="queue_id" jdbcType="BIGINT"/>
         <result property="priority" column="priority" jdbcType="INTEGER"/>
+        <result property="ttl" column="ttl" jdbcType="INTEGER"/>
         <result property="messageType" column="message_type" jdbcType="INTEGER"/>
         <result property="businessType" column="business_type" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="LONGVARCHAR"/>
@@ -28,6 +29,7 @@
         `user_id`,
         `queue_id`,
         `priority`,
+        `ttl`,
         `message_type`,
         `business_type`,
         `content`,

@@ -52,31 +52,33 @@ public class EmailContentCommand extends BaseMsgCommand {
     private String[] cc;
 
     public EmailContentCommand(String subject, String content, String[] to, String[] cc, Integer priority,
-                               EnumMessageType messageType, String businessType) {
+                               Integer ttl, EnumMessageType messageType, String businessType) {
         this.subject = subject;
         this.content = content;
         this.to = to;
         this.cc = cc;
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setBusinessType(businessType);
     }
 
     public EmailContentCommand(String sender, String subject, String content, String[] to, String[] cc,
-                               Integer priority, EnumMessageType messageType, String businessType) {
+                               Integer ttl, Integer priority, EnumMessageType messageType, String businessType) {
         this.sender = sender;
         this.subject = subject;
         this.content = content;
         this.to = to;
         this.cc = cc;
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setBusinessType(businessType);
     }
 
     public EmailContentCommand(String sender, String username, String senderNick, String password,
                                String subject, String content, String[] to, String[] cc, Integer priority,
-                               EnumMessageType messageType, String businessType) {
+                               Integer ttl, EnumMessageType messageType, String businessType) {
         this.sender = sender;
         this.username = username;
         this.senderNick = senderNick;
@@ -86,6 +88,7 @@ public class EmailContentCommand extends BaseMsgCommand {
         this.to = to;
         this.cc = cc;
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setBusinessType(businessType);
     }

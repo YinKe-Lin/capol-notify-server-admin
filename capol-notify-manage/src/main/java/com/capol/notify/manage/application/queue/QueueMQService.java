@@ -3,6 +3,7 @@ package com.capol.notify.manage.application.queue;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.capol.notify.manage.application.ApplicationException;
 import com.capol.notify.manage.domain.EnumExceptionCode;
+import com.capol.notify.manage.domain.TTLQueueConfig;
 import com.capol.notify.manage.domain.model.queue.UserQueueDO;
 import com.capol.notify.manage.domain.repository.UserQueueMapper;
 import com.rabbitmq.client.AMQP;
@@ -16,7 +17,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,7 +50,7 @@ public class QueueMQService {
         LambdaQueryWrapper<UserQueueDO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserQueueDO::getDisabled, false);
         /** status字段已启用@TableLogic逻辑删除注解
-        queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
+         queryWrapper.eq(UserQueueDO::getStatus, EnumStatusType.NORMAL.getCode());*/
         List<UserQueueDO> userQueueDOS = userQueueMapper.selectList(queryWrapper);
         this.registrationQueue(userQueueDOS);
     }
@@ -109,16 +109,13 @@ public class QueueMQService {
          */
         userQueueDOS.forEach(queue -> {
             try {
-                /**
-                 * Map<String, Object> arguments = new HashMap<>(8);
-                 * //一般设置10个优先级，数字越大，优先级越高, 官方允许是 0-255 之间 此处设置10 允许优化级范围0-10 不要设置过大 浪费CPU与内存
-                 * arguments.put("x-max-priority", queue.getPriority());
-                 */
-                Map<String, Object> args = new HashMap<>(1);
+                Map<String, Object> arguments = TTLQueueConfig.getDeadQueueArgs();
+                //一般设置10个优先级，数字越大，优先级越高, 官方允许是 0-255 之间 此处设置10 允许优化级范围0-10 不要设置过大 浪费CPU与内存
+                // arguments.put("x-max-priority", queue.getPriority());
                 // 声明队列的 TTL时间(毫秒)
-                args.put("x-message-ttl", 10000);
-                //创建队列
-                channel.queueDeclare(queue.getQueue(), true, false, false, args);
+                arguments.put("x-message-ttl", queue.getTtl());
+                //创建队列,并和死信进行绑定,将过期消息转发到死信队列
+                channel.queueDeclare(queue.getQueue(), true, false, false, arguments);
                 //队列绑定交换机
                 channel.queueBind(queue.getQueue(), queue.getExchange(), queue.getRouting());
                 log.info("-->创建队列:{} 成功! 绑定的交换机:{},路由:{}", queue.getQueue(), queue.getExchange(), queue.getRouting());

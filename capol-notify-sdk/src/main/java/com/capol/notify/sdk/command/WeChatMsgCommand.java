@@ -48,13 +48,15 @@ public class WeChatMsgCommand extends BaseMsgCommand {
 
     private Long runStartTime;
 
-    public WeChatMsgCommand(Long stallId, String templateId, Map<String, WeChatMessageData> data, Map<String, String> miniProgram, Integer priority,
+    public WeChatMsgCommand(Long stallId, String templateId, Map<String, WeChatMessageData> data,
+                            Map<String, String> miniProgram, Integer priority, Integer ttl,
                             EnumMessageType messageType, String businessType) {
         this.setStallId(stallId);
         this.setTemplate_id(templateId);
         this.setData(data);
         this.setMiniprogram(miniProgram);
         this.setPriority(priority);
+        this.setTtl(ttl);
         this.setMessageType(messageType);
         this.setBusinessType(businessType);
     }

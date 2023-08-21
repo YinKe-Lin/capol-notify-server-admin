@@ -40,6 +40,11 @@ public class UserQueueMessageDO extends BaseEntity {
     private Integer priority;
 
     /**
+     * 消息过期时间
+     */
+    private Integer ttl;
+
+    /**
      * 消息类型(1-钉钉普通消息 2-钉钉群组消息 3-邮件消息)
      */
     private String messageType;
